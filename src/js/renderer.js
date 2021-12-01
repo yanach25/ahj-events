@@ -10,36 +10,40 @@ export default class Renderer {
                                         <div>Score: <span id="score">0</span></div>
                                         <div>Miss: <span id="miss">0</span></div>
                                     </div>`;
+    this.newGameEl = document.createElement('div');
+    this.newGameEl.classList.add('new-game');
+    this.newGameEl.classList.add('none');
+    this.newGameEl.innerHTML = '<button>New game</button>';
+    this.scoreContainer.appendChild(this.newGameEl);
+
     this.field = document.createElement('div');
     this.field.classList.add('field-container');
     container.appendChild(this.field);
 
-    for (let i = 0; i < 4; i += 1) {
+    for (let i = 0; i < 25; i += 1) {
       this.field.appendChild(Renderer.getEmptyItem());
     }
   }
 
-  scoreUp(score) {
-    const scoreEl = this.scoreContainer.querySelector('#score');
-    scoreEl.innerText = score;
+  getNewGameButton() {
+    return this.newGameEl.firstChild;
   }
 
-  missUp(score) {
-    const missEl = this.scoreContainer.querySelector('#miss');
-    missEl.innerText = score;
+  renderScoreEl(point, type) {
+    const selector = `#${type}`;
+    const scoreEl = this.scoreContainer.querySelector(selector);
+    scoreEl.innerText = point;
   }
 
   clearImg() {
     const imgItem = this.field.querySelector('img');
     if (imgItem) {
-      const currentParent = imgItem.closest('.item');
-      const emptyItem = Renderer.getEmptyItem();
-      this.field.replaceChild(emptyItem, currentParent);
+      imgItem.remove();
     }
   }
 
   setImage(position) {
-    this.items = this.field.querySelectorAll('.item');
+    this.items = document.querySelectorAll('.item');
     this.items[position].appendChild(Renderer.getImg());
   }
 
